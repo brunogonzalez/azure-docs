@@ -61,7 +61,7 @@ As you're analyzing test results, keep in mind the following recommendations:
 
 ### Get latte.exe onto the VMs
 
-Download the [latest version of latte.exe](https://github.com/microsoft/latte/releases/download/v0/latte.exe).
+Download the [latest version of latte.exe](https://github.com/microsoft/latte/releases/download/v1.0.0/latte.exe).
 
 Consider putting latte.exe in separate folder, such as *c:\tools*.
 
@@ -84,26 +84,26 @@ For example, if you copied latte.exe to the *c:\tools* folder, this would be the
 * On the *receiver*, start latte.exe (run it from the CMD window, not from PowerShell):
 
     ```cmd
-    latte -a <Receiver IP address>:<port> -i <iterations>
+    latte -a <Receiver IP address>:<port> -m <size in bytes> -i <iterations>
     ```
 
-    Around 65,000 iterations is long enough to return representative results.
+    Around 65,000 iterations is long enough to return representative results. Using an example of 1KB payload to have a realistic TCP packet size under the MTU size which will ensure there is no fragmentation.
 
     Any available port number is fine.
 
     If the VM has an IP address of 10.0.0.4, the command would look like this:
 
-    `latte -a 10.0.0.4:5005 -i 65100`
+    `latte -a 10.0.0.4:5005 -m 1024 -i 65100`
 
 * On the *sender*, start latte.exe (run it from the CMD window, not from PowerShell):
 
     ```cmd
-    latte -c -a <Receiver IP address>:<port> -i <iterations>
+    latte -c -a <Receiver IP address>:<port> -m <size in bytes> -i <iterations>
     ```
 
     The resulting command is the same as on the receiver, except with the addition of&nbsp;*-c* to indicate that this is the *client*, or *sender*:
 
-    `latte -c -a 10.0.0.4:5005 -i 65100`
+    `latte -c -a 10.0.0.4:5005 -m 1024 -i 65100`
 
 Wait for the results. Depending on how far apart the VMs are, the test could take a few minutes to finish. Consider starting with fewer iterations to test for success before running longer tests.
 
